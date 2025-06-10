@@ -1,20 +1,21 @@
 import User from "../Models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { createError } from "../utils/createError.js";
 
 const generatedToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
   // openssl rand -hex 64 to create JWT_SECRET
 };
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
     // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: "User already exists" });
+      return next(createError(400, "User already exsits"));
     }
 
     // Hash password
@@ -36,32 +37,30 @@ export const registerUser = async (req, res) => {
       token: generatedToken(user._id),
     });
   } catch (error) {
-    res.status(500).json({ message: "SERVER ERROR", error: error.message });
+    next(error);
   }
 };
 
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
     // Check if email and password is provided
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
+      return next(createError(400, "Email and Password are required"));
     }
 
     // Check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return next(createError(404, "User Not Found!"));
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return next(createError(401, "Invalid Email or Password"));
     }
 
     //  Return user data with JWT
@@ -72,26 +71,21 @@ export const loginUser = async (req, res) => {
       token: generatedToken(user._id),
     });
   } catch (error) {
-    res.status(500).json({ message: "SERVER ERROR", error: error.message });
+    next(error);
   }
 };
 
-export const getUserProfile = async (req, res) => {
+export const getUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
-      return res.status(404).json({
-        message: "User not found!",
-      });
+      return next(createError(404, "User not found!"));
     }
 
     res.status(200).json(user); // ✅ Success response
   } catch (error) {
-    res.status(500).json({
-      message: "SERVER ERROR",
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -99,9 +93,7 @@ export const updateUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
+      return next(createError(404, "User not found!"));
     }
 
     user.name = req.body.name || user.name;
@@ -121,9 +113,6 @@ export const updateUserProfile = async (req, res) => {
       token: generatedToken(updatedUser._id),
     });
   } catch (error) {
-    res.status(500).json({
-      message: "SERVER ERROR",
-      error: error.message,
-    });
+    next(error);
   }
 };

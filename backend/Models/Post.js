@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema(
     },
     date: {
       type: Date, // Date on which it was created
-      required: true,
+      default: Date.now,
     },
     coverImage: {
       type: String, // Image URL
