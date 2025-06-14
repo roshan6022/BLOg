@@ -9,7 +9,7 @@ export const API_PATHS = {
   },
 
   POSTS: {
-    GET_POSTS: "/api/posts",
+    GET_ALL_POSTS: "/api/posts",
     CREATE_POST: "/api/posts",
     GET_POST_BY_ID: (postId) => `/api/posts/${postId}`,
     UPDATE_POST: (postId) => `/api/posts/${postId}`,
