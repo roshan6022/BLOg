@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../Models/User.js";
-import createError from "../utils/createError.js";
+import { createError } from "../utils/createError.js";
 
 export const protect = async (req, res, next) => {
   try {
