@@ -13,6 +13,7 @@ import Profile from "./pages/Client/Profile";
 import ViewPost from "./pages/Client/ViewPost";
 import UserProvider, { UserContext } from "./context/UserContext";
 import { Toaster } from "react-hot-toast";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   return (
@@ -27,10 +28,12 @@ export default function App() {
           <Route path="/" element={<Root />} />
 
           {/* Protected Routes */}
-          <Route path="/home" element={<Home />} />
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/:id" element={<ViewPost />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/:id" element={<ViewPost />} />
+          </Route>
         </Routes>
       </Router>
       <Toaster
