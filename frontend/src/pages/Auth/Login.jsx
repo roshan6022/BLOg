@@ -61,7 +61,7 @@ const Login = () => {
   return (
     <div className="auth">
       <div className="min-h-screen flex items-center justify-center bg-[#C0C0C0]">
-        <AuthWindow title="Login - BlogPost">
+        <AuthWindow title="Login - Whispwrite">
           <form className="flex flex-col space-y-4" onSubmit={handleLogin}>
             <Input
               value={email}
@@ -75,7 +75,7 @@ const Login = () => {
               value={password}
               onChange={({ target }) => setPassword(target.value)}
               label="Password"
-              placeholder="Min 8 Character"
+              placeholder="password"
               type="password"
             />
 

@@ -11,7 +11,7 @@ import Home from "./pages/Client/Home";
 import CreatePost from "./pages/Client/CreatePost";
 import Profile from "./pages/Client/Profile";
 import ViewPost from "./pages/Client/ViewPost";
-import UserProvider, { UserContext } from "./context/UserContext";
+import { UserProvider, UserContext } from "./context/UserContext";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./routes/PrivateRoute";
 
@@ -32,7 +32,7 @@ export default function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/:id" element={<ViewPost />} />
+            <Route path="/view" element={<ViewPost />} />
           </Route>
         </Routes>
       </Router>

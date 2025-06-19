@@ -66,13 +66,13 @@ export default function SignUp() {
   return (
     <div className="auth">
       <div className="min-h-screen flex items-center justify-center bg-[#C0C0C0]">
-        <AuthWindow title="SignUp - BlogPost">
+        <AuthWindow title="SignUp - Whispwrite">
           <form className="flex flex-col space-y-4" onSubmit={handleSignUp}>
             <Input
               value={fullName}
               onChange={({ target }) => setFullName(target.value)}
               label="Full Name"
-              placeholder="name"
+              placeholder="Full Name"
               type="text"
             />
             <Input
