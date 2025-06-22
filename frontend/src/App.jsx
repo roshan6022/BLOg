@@ -32,7 +32,7 @@ export default function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/view" element={<ViewPost />} />
+            <Route path="/view/:id" element={<ViewPost />} />
           </Route>
         </Routes>
       </Router>
